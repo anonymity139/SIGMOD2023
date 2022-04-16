@@ -37,9 +37,16 @@ int main(int argc, char *argv[])
     // obtain the utility vector
     point_t *up = new point_t(dim_p);
     double sum = 0, range = 1000;
-    for (int i = 0; i < dim_p; i++)
+    for (int i = 0; i < d_num; i++)
     {
         up->attr[i] = ((double) rand()) / RAND_MAX;
+        sum += up->attr[i];
+    }
+    for (int i = d_num; i < dim_p; i++)
+    {
+        double g = ((double) (rand() % 1000) / 1000);
+        up->attr[i] = (((double) rand()) / RAND_MAX) * g;
+        //up->attr[i] = up->attr[i] / RAND_MAX;
         sum += up->attr[i];
     }
     up->attr[dim_p - 1] = range;
@@ -48,7 +55,7 @@ int main(int argc, char *argv[])
         up->attr[i] = (range * up->attr[i]) / sum;
         up->attr[dim_p - 1] -= up->attr[i];
     }
-
+    
     point_t *ut = up->extract_num(d_num, d_new_attr);//for numerical attributes of tuples
     double u_range = 0;
     for (int i = 0; i < d_num; i++)
